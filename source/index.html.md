@@ -226,6 +226,7 @@ Parameter | Type | Required | Description
 **font** | string | no | One of any post appearance types [listed above](#posts). If invalid, defaults to `serif`.
 **lang** | string | no | ISO 639-1 language code, e.g. _en_ or _de_.
 **rtl** | boolean | no | Whether or not the content should be display right-to-left, for example if written in Arabic or Hebrew.
+**crosspost** | array | no | **Must be authenticated**. An array of integrations and associated usernames to post to. See [Crossposting](#crossposting).
 
 ### Returns
 
@@ -453,7 +454,7 @@ curl "https://write.as/api/collections" \
 }
 ```
 
-This creates a new collection.
+This creates a new collection. **Pro user required**.
 
 ### Definition
 
@@ -583,6 +584,7 @@ Parameter | Type | Required | Description
 **font** | string | no | One of any post appearance types [listed above](#posts). If invalid, defaults to `serif`.
 **lang** | string | no | ISO 639-1 language code, e.g. _en_ or _de_.
 **rtl** | boolean | no | Whether or not the content should be display right-to-left, for example if written in Arabic or Hebrew.
+**crosspost** | array | no | An array of integrations and associated usernames to post to. See [Crossposting](#crossposting).
 
 ### Returns
 
@@ -649,6 +651,41 @@ The requested collection and its posts in a `posts` array.
 Currently it's only possible to create users, but the API isn't finalized.
 
 See [Authentication](#authenticate-a-user) for information on logging in.
+
+
+# Integrations
+
+Write.as integrates with other services on the web to provide features like crossposting upon publishing a Write.as post.
+
+On the web, these are known as **channels**, and if you're logged in, they can be added [here](https://write.as/me/c/).
+
+## Crossposting
+
+> Example `crosspost` Parameter
+
+```json
+"crosspost": [
+  { "twitter": "writeas__" },
+  { "twitter": "ilikebeans" },
+  { "medium": "someone" },
+  { "tumblr": "example" }
+]
+```
+
+Crossposting is easy to do when publishing a new post. It requires authentication and at least one connected integration / channel on the web.
+
+<aside class="notice">
+Soon you'll be able to retrieve a user's connected accounts, so this may only be relevant to users posting from their own account for now.
+</aside>
+
+For the `crosspost` parameter on a new post, pass a JSON array of single-property objects. The object's sole property should be the ID of the integration you want to crosspost to (see below), and its value should be the user's connected username _on that service_.
+
+ID | Integration
+--- | ----------
+twitter | Twitter
+tumblr | Tumblr
+medium | Medium
+
 
 ---
 
