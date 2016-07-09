@@ -1,5 +1,7 @@
 # Write.as API Docs
 
+View on [GitHub Pages](https://writeas.github.io/docs/).
+
 ## Getting Set Up
 
 Initialize and start Slate. You can either do this locally, or with Vagrant:
