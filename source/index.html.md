@@ -5,8 +5,7 @@ language_tabs:
   - shell
 
 toc_footers:
-  - <a href='https://write.as'>Write.as</a>
-  - <a href='https://github.com/tripit/slate'>Powered by Slate</a>
+  - <a href='https://github.com/tripit/slate'>Docs by Slate</a>
 
 search: true
 ---
