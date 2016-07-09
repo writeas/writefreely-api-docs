@@ -1,45 +1,43 @@
 ---
-title: API Reference
+title: Write.as API Documentation
 
 language_tabs:
   - shell
-  - ruby
-  - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
+  - <a href='https://write.as'>Write.as</a>
+  - <a href='https://github.com/tripit/slate'>Powered by Slate</a>
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Write.as API! Use this to interact with Write.as.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Write.as works well anonymously or as a registered user. It can also be used via our Tor hidden service at `writeas7pm7rcdqg.onion/api/`.
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Most endpoints accept both form data or JSON, assuming form data unless a `Content-Type: application/json` header is sent.
+
+# Errors
+
+The Write.as API uses conventional HTTP response codes to indicate the status of an API request. Codes in the `2xx` range indicate success or that more information is available in the returned data, in the case of bulk actions.
+Codes in the `4xx` range indicate that the request failed with the information provided. Codes in the `5xx` range indicate an error with the Write.as servers (you shouldn't see many of these).
+
+Error Code | Meaning
+---------- | -------
+400 | Bad Request -- The request didn't provide the correct parameters.
+401 | Unauthorized -- No valid user token was given.
+403 | Forbidden -- You attempted an action that you're not allowed to perform.
+404 | Not Found -- The requested resource doesn't exist.
+405 | Method Not Allowed -- The attempted method isn't supported.
+410 | Gone -- The entity was unpublished, but may be back.
+429 | Too Many Requests -- You're making too many requests, especially to the same resource.
+500, 502, 503 | Server errors -- Something went wrong on our end.
 
 # Authentication
 
 > To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
 
 ```shell
 # With shell, you can just pass the correct header with each request
@@ -47,143 +45,171 @@ curl "api_endpoint_here"
   -H "Authorization: meowmeowmeow"
 ```
 
-```javascript
-const kittn = require('kittn');
+> All endpoints will work with authenticated requests.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+Write.as doesn't require authentication to use, either for the client or end user.
 
-> Make sure to replace `meowmeowmeow` with your API key.
+However, if you want to perform actions on behalf of a user, you'll need to pass a user access token with any requests:
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: 00000000-0000-0000-0000-000000000000`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Replace <code>00000000-0000-0000-0000-000000000000</code> with a user's access token.
 </aside>
 
-# Kittens
+# Posts
 
-## Get All Kittens
+Posts are very flexible entities on Write.as. Each can have its own appearance, and isn't connected to any other Write.as entity by default. They can exist without an owner, or with an owner but no collection, or with both an owner and collection.
 
-```ruby
-require 'kittn'
+When posts have no owner, it's up to the client to maintain posts a user has created. By keeping this information on the client, users can write anonymously -- both according to Write.as and to anyone who reads any given post.
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+Users can choose between different appearances for each post, usually passed to and from the API as a `font` property:
 
-```python
-import kittn
+| Argument | Appearance (Typeface) | Word Wrap? | Also on |
+| -------- | --------------------- | ---------- | ------- |
+| `sans` | Sans-serif (Open Sans) | Yes | _N/A_ |
+| `serif` | Serif (Lora) | Yes | _N/A_ |
+| `wrap` | Monospace | Yes | _N/A_ |
+| `mono` | Monospace | No | paste.as |
+| `code` | Syntax-highlighted monospace | No | paste.as |
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+## Publish a Post
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+curl "https://write.as/api/posts" \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{"body": "This is a basic post.", "title": "My First Post"}'
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> Example Response
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "code": 201,
+  "data": {
+    "id": "rf3t35fkax0aw",
+    "slug": null,
+    "token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M",
+    "appearance": "norm",
+    "language": "",
+    "rtl": false,
+    "created": "2016-07-09T01:43:46Z",
+    "title": "My First Post",
+    "body": "This is a basic post.",
+    "tags": [
+    ]
+  }
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This creates a new anonymous post. If successful, the post will be available at:
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+* write.as/`{id}`
+* writeas7pm7rcdqg.onion/`{id}`
+* paste.as/`{id}` -- if `font` was _code_ or _mono_
 
-### HTTP Request
+### Definition
 
-`GET http://example.com/kittens/<ID>`
+`POST https://write.as/api/posts`
 
-### URL Parameters
+### Arguments
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+**body** | string | true | The content of the post.
+**title** | string | false | An optional title for the post. If none is given, Write.as will try to extract one for the browser's title bar, but not change any appearance in the post itself.
+**font** | string | false | One of any post appearance types [listed above](#posts). If invalid, defaults to `serif`.
+**lang** | string | false | ISO 639-1 language code, e.g. _en_ or _de_.
+**rtl** | boolean | false | Whether or not the content should be display right-to-left, for example if written in Arabic.
 
+### Returns
+
+The newly created post.
+
+<aside class="notice">
+When unauthenticated, the client should store the <code>token</code> it gets back from this request so users can modify their post later. Otherwise it isn't necessary.
+</aside>
+
+## Retrieve a Post
+
+```shell
+curl https://write.as/api/posts/rf3t35fkax0aw
+```
+
+> Example Response
+
+```json
+{
+  "code": 200,
+  "data": {
+    "id": "rf3t35fkax0aw",
+    "slug": null,
+    "appearance": "norm",
+    "language": "",
+    "rtl": false,
+    "created": "2016-07-09T01:43:05Z",
+    "title": "My First Post",
+    "body": "This is a basic post.",
+    "tags": [  
+    ],
+    "views": 0
+  }
+}
+```
+
+This retrieves a post entity. It includes extra Write.as data, such as page views and extracted hashtags.
+
+### Definition
+
+`GET https://write.as/api/posts/{POST_ID}`
+
+## Update a Post
+
+```shell
+curl "https://write.as/api/posts/rf3t35fkax0aw" \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{"token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M", "body": "My post is updated."}'
+```
+
+> Example Response
+
+```json
+{
+  "code": 200,
+  "data": {
+    "id": "rf3t35fkax0aw",
+    "slug": null,
+    "appearance": "norm",
+    "language": "",
+    "rtl": false,
+    "created": "2016-07-09T01:43:05Z",
+    "title": "My First Post",
+    "body": "This is an updated post.",
+    "tags": [  
+    ],
+    "views": 0
+  }
+}
+```
+
+This updates a post.
+
+### Definition
+
+`POST https://write.as/api/posts/{POST_ID}`
+
+### Arguments
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+**body** | string | true | The content of the post.
+**title** | string | false | An optional title for the post. Supplying a parameter but leaving it blank will remove any title currently on the post.
+**font** | string | false | One of any post appearance types [listed above](#posts). If invalid, it doesn't change.
+**lang** | string | false | ISO 639-1 language code, e.g. _en_ or _de_.
+**rtl** | boolean | false | Whether or not the content should be display right-to-left, for example if written in Arabic.
+
+### Returns
+
+The entire post as it stands after the update.
