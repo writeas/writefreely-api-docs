@@ -13,15 +13,11 @@ search: true
 
 # Introduction
 
-Welcome to the Write.as API! Use this to interact with Write.as.
+Welcome to the [Write.as](https://write.as) API! Our API gives you full access to Write.as data and lets you build your own applications or utilities on top of it.
 
-Write.as works well anonymously or as a registered user. It can also be used via our Tor hidden service at `writeas7pm7rcdqg.onion/api/`.
+Our API is accessible at **https://write.as/api/** (HTTPS _only_) and via our Tor hidden service at **writeas7pm7rcdqg.onion/api/**.
 
-<aside class="success">
-Most endpoints accept both form data or JSON, assuming form data unless a <code>Content-Type: application/json</code> header is sent.
-</aside>
-
-Backwards compatibility is extremely important to us, as we have a large set of clients and versions in the wild. As we add new features, we usually add new endpoints and properties alongside existing ones, but won't remove or change finalized ones that are documented here. If a breaking API change is required in the future, we'll version new endpoints and update these docs.
+Backwards compatibility is important to us since we have a large set of [clients](https://write.as/apps) in the wild. As we add new features, we usually add endpoints and properties alongside existing ones, but don't remove or change finalized ones that are documented here. If a breaking API change is required in the future, we'll version new endpoints and update these docs.
 
 This documentation represents the officially-supported, latest API. Any properties or endpoints you discover in the API that aren't documented here should be considered experimental or beta functionality, and subject to change without any notice.
 
@@ -50,7 +46,7 @@ Error Code | Meaning
 429 | Too Many Requests -- You're making too many requests, especially to the same resource.
 500, 502, 503 | Server errors -- Something went wrong on our end.
 
-## Response Object
+## Responses
 
 > Successful requests return with a `code` in the `2xx` range and a `data` object or array, depending on the request.
 
@@ -58,7 +54,6 @@ Error Code | Meaning
 {
   "code": "200",
   "data": {
-    "username": "matt"
   }
 }
 ```
@@ -72,14 +67,14 @@ Field | Type | Description
 
 This wrapper will never contain an `error_msg` property at the top level.
 
+<aside class="success">
+Most endpoints <em>accept</em> both form data or JSON, assuming form data by default unless a <code>Content-Type: application/json</code> header is sent.
+</aside>
+
 
 # Authentication
 
-> All endpoints will work with authenticated requests.
-
-Write.as doesn't require any authentication, either for the client or end user.
-
-However, if you want to perform actions on behalf of a user, you'll need to pass a user access token with any requests:
+The API doesn't require any authentication, either for the client or end user. However, if you want to perform actions on behalf of a user, you'll need to pass a user access token with any requests:
 
 `Authorization: 00000000-0000-0000-0000-000000000000`
 
