@@ -474,8 +474,8 @@ Errors are returned with a user-friendly error message.
 
 ```json
 {
-  "code": 401,
-  "error_msg": "Incorrect password."
+  "code": 403,
+  "error_msg": "You must be a Pro user to do that."
 }
 ```
 
@@ -484,7 +484,8 @@ Error Code | Meaning
 400 | Request is missing required information, or bad form data / JSON.
 401 | Incorrect information given.
 403 | You're not a Pro user.
-412 | You've reached the maximum number of collections allowed, or alias is taken.
+409 | Alias is taken.
+412 | You've reached the maximum number of collections allowed.
 
 
 ## Retrieve a Collection
