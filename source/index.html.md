@@ -410,7 +410,7 @@ A `200` status code and no content in the body.
 
 # Collections
 
-Collections are referred to as blogs on most of Write.as. They're groups of posts that currently can only be _public_, i.e. available at a publicly-accessible URL.
+Collections are referred to as **blogs** on most of Write.as. Each gets its own shareable URL.
 
 Each user has one collection matching their username, but can also have more collections connected to their account as a Pro user.
 
@@ -640,6 +640,66 @@ This retrieves a collection's posts along with the collection's data.
 ### Returns
 
 The requested collection and its posts in a `posts` array.
+
+
+## Move a Post to a Collection
+
+```go
+// Currently unsupported in the Go client.
+// Use curl command or contribute at:
+//   https://github.com/writeas/writeas-go
+```
+
+```shell
+curl "https://write.as/api/collections/new-blog/collect" \
+  -H "Authorization: 00000000-0000-0000-0000-000000000000" \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '[{"id": "rf3t35fkax0aw", "token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M"}]'
+```
+
+> Example Response
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "code": 200,
+	  "post": {
+        "id": "rf3t35fkax0aw",
+        "slug": "my-first-post",
+        "token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M",
+        "appearance": "norm",
+        "language": "",
+        "rtl": false,
+        "created": "2016-07-09T01:43:46Z",
+        "title": "My First Post",
+        "body": "This is a post.",
+      }
+	}
+  ]
+}
+```
+
+This adds a group of posts to a collection. This works for either posts that were created anonymously (i.e. don't belong to the user account) or posts already owned by the user account.
+
+### Definition
+
+`POST https://write.as/api/collections/{COLLECTION_ALIAS}/collect`
+
+### Arguments
+
+Pass an array of objects, each containing the following parameters:
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+**id** | string | yes | The ID of the post to add to the collection
+**token** | string | maybe* | The post's modify token. *Required if the post doesn't belong to the requesting user.
+
+### Returns
+
+A `200` at the top level for all requests. `data` contains an array of response envelopes: each with `code` and `post` (with full post data) on success, or `code` and `error_msg` on failure for any given post.
 
 
 # Users
