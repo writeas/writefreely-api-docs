@@ -78,77 +78,12 @@ The API doesn't require any authentication, either for the client or end user. H
 
 `Authorization: 00000000-0000-0000-0000-000000000000`
 
+See the [Authenticate a User](#authenticate-a-user) section for information on logging in.
+
 <aside class="notice">
 Replace <code>00000000-0000-0000-0000-000000000000</code> with a user's access token.
 </aside>
 
-## Authenticate a User
-
-```go
-// Currently unsupported in the Go client.
-// Use curl command or contribute at:
-//   https://github.com/writeas/writeas-go
-```
-
-```shell
-curl "https://write.as/api/auth/login" \
-  -H "Content-Type: application/json" \
-  -X POST \
-  -d '{"alias": "matt", "pass": "12345"}'
-```
-
-> Example Response
-
-```json
-{
-  "code": 200,
-  "data": {
-    "access_token": "00000000-0000-0000-0000-000000000000",
-    "user": {
-      "username": "matt",
-      "email": "matt@example.com",
-      "created": "2015-02-03T02:41:19Z"
-    }
-  }
-}
-```
-
-Authenticates a user with Write.as, creating an access token for future authenticated requests.
-
-Users can only authenticate with their primary account, i.e. the first collection/blog they created, which may or may not have multiple collections associated with it.
-
-### Definition
-
-`POST https://write.as/api/auth/login`
-
-### Arguments
-
-Parameter | Type | Required | Description
---------- | ---- | -------- | -----------
-**alias** | string | yes | The user's username / alias.
-**pass** | string | yes | The user's password.
-
-### Returns
-
-A user access token and the authenticated user's full data.
-
-### Errors
-
-Errors are returned with a user-friendly error message.
-
-```json
-{
-  "code": 401,
-  "error_msg": "Incorrect password."
-}
-```
-
-Error Code | Meaning
----------- | -------
-400 | Request is missing required information, or bad form data / JSON.
-401 | Incorrect information given.
-404 | User doesn't exist.
-429 | You're trying to log in too many times too quickly. You shouldn't see this unless you're doing something bad (in which case, please stop that).
 
 # Posts
 
@@ -704,9 +639,80 @@ A `200` at the top level for all requests. `data` contains an array of response 
 
 # Users
 
-Currently it's only possible to create users, but the API isn't finalized.
+Users have posts and collections associated with them that can be accessed across devices and browsers.
 
-See [Authentication](#authenticate-a-user) for information on logging in.
+Having an account isn't necessary to interact with Write.as, but provides useful functionality impossible or difficult to implement client-side. It does come with the trade-off of anonymity for pseudonymity.
+
+However, Write.as is also set up to work well pseudo- and anonymously at the same time. If your client performs actions on behalf of a user, simply send the `Authorization` header for user actions and leave it off for anonymous requests, saving any published posts' `token` like normal. Posts published anonymously can still be synced at any time, or never synced to ensure an account isn't associated with posts a user doesn't want to be associated with.
+
+
+## Authenticate a User
+
+```go
+// Currently unsupported in the Go client.
+// Use curl command or contribute at:
+//   https://github.com/writeas/writeas-go
+```
+
+```shell
+curl "https://write.as/api/auth/login" \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '{"alias": "matt", "pass": "12345"}'
+```
+
+> Example Response
+
+```json
+{
+  "code": 200,
+  "data": {
+    "access_token": "00000000-0000-0000-0000-000000000000",
+    "user": {
+      "username": "matt",
+      "email": "matt@example.com",
+      "created": "2015-02-03T02:41:19Z"
+    }
+  }
+}
+```
+
+Authenticates a user with Write.as, creating an access token for future authenticated requests.
+
+Users can only authenticate with their primary account, i.e. the first collection/blog they created, which may or may not have multiple collections associated with it.
+
+### Definition
+
+`POST https://write.as/api/auth/login`
+
+### Arguments
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+**alias** | string | yes | The user's username / alias.
+**pass** | string | yes | The user's password.
+
+### Returns
+
+A user access token and the authenticated user's full data.
+
+### Errors
+
+Errors are returned with a user-friendly error message.
+
+```json
+{
+  "code": 401,
+  "error_msg": "Incorrect password."
+}
+```
+
+Error Code | Meaning
+---------- | -------
+400 | Request is missing required information, or bad form data / JSON.
+401 | Incorrect information given.
+404 | User doesn't exist.
+429 | You're trying to log in too many times too quickly. You shouldn't see this unless you're doing something bad (in which case, please stop that).
 
 
 # Integrations
