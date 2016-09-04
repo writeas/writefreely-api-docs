@@ -76,7 +76,7 @@ Most endpoints <em>accept</em> both form data or JSON, assuming form data by def
 
 The API doesn't require any authentication, either for the client or end user. However, if you want to perform actions on behalf of a user, you'll need to pass a user access token with any requests:
 
-`Authorization: 00000000-0000-0000-0000-000000000000`
+`Authorization: Token 00000000-0000-0000-0000-000000000000`
 
 See the [Authenticate a User](#authenticate-a-user) section for information on logging in.
 
@@ -363,7 +363,7 @@ All collection requests except retrieval must be <a href="#authentication">authe
 
 ```shell
 curl "https://write.as/api/collections" \
-  -H "Authorization: 00000000-0000-0000-0000-000000000000" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -X POST \
   -d '{"alias": "new-blog", "title": "The Best Blog Ever"}'
 ```
@@ -471,7 +471,7 @@ The requested collection.
 
 ```shell
 curl "https://write.as/api/collections/new-blog/posts" \
-  -H "Authorization: 00000000-0000-0000-0000-000000000000" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
   -d '{"body": "This is a blog post.", "title": "My Post"}'
@@ -587,7 +587,7 @@ The requested collection and its posts in a `posts` array.
 
 ```shell
 curl "https://write.as/api/collections/new-blog/collect" \
-  -H "Authorization: 00000000-0000-0000-0000-000000000000" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
   -d '[{"id": "rf3t35fkax0aw", "token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M"}]'
