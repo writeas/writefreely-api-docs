@@ -329,7 +329,7 @@ curl "https://write.as/api/posts/rf3t35fkax0aw?token=ozPEuJWYK8L1QsysBUcTUKy9za7
   -X DELETE
 ```
 
-> A successful deletion returns a `200` with no content in the body.
+> A successful deletion returns a `204` with no content in the body.
 
 This deletes a post.
 
@@ -345,11 +345,7 @@ Parameter | Type | Required | Description
 
 ### Returns
 
-A `200` status code and no content in the body.
-
-<aside class="warning">
-<strong>Upcoming breaking change</strong>: Soon this will return a <code>204</code>. Current clients should handle both status codes as indicating a successful operation.
-</aside>
+A `204` status code and no content in the body.
 
 # Collections
 
