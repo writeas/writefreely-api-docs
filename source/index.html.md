@@ -420,7 +420,7 @@ Errors are returned with a user-friendly error message.
 
 Error Code | Meaning
 ---------- | -------
-400 | Request is missing required information, or bad form data / JSON.
+400 | Request is missing required information, or has bad form data / JSON.
 401 | Incorrect information given.
 403 | You're not a Pro user.
 409 | Alias is taken.
@@ -712,7 +712,7 @@ Errors are returned with a user-friendly error message.
 
 Error Code | Meaning
 ---------- | -------
-400 | Request is missing required information, or bad form data / JSON.
+400 | Request is missing required information, or has bad form data / JSON.
 401 | Incorrect information given.
 404 | User doesn't exist.
 429 | You're trying to log in too many times too quickly. You shouldn't see this unless you're doing something bad (in which case, please stop that).
