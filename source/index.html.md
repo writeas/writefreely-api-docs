@@ -653,9 +653,8 @@ However, Write.as is also set up to work well pseudo- and anonymously at the sam
 ## Authenticate a User
 
 ```go
-// Currently unsupported in the Go client.
-// Use curl command or contribute at:
-//   https://github.com/writeas/writeas-go
+c := NewClient()
+u, err := c.LogIn("matt", "12345")
 ```
 
 ```shell
