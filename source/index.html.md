@@ -6,6 +6,8 @@ language_tabs:
   - go
 
 toc_footers:
+  - <a href='https://twitter.com/writeas__'>@writeas__</a>
+  - <a href='https://write.as/blog/'>Updates</a>
   - <a href='https://github.com/tripit/slate'>Docs by Slate</a>
 
 search: true
