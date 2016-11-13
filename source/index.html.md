@@ -347,6 +347,48 @@ Parameter | Type | Required | Description
 
 A `204` status code and no content in the body.
 
+
+## Claim Posts
+
+```go
+c := NewClient()
+err := c.ClaimPosts(&[]OwnedPostParams{
+	{
+		ID:    "rf3t35fkax0aw",
+		Token: "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M",
+	},
+})
+```
+
+```shell
+curl "https://write.as/api/posts/claim" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
+  -X POST \
+  -d '[{"id": "rf3t35fkax0aw", "token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M"}]'
+```
+
+> Always returns a `200`
+
+This adds unowned posts to a Write.as user / account.
+
+### Definition
+
+`POST https://write.as/api/posts/claim`
+
+### Arguments
+
+The body should contain an array of objects with these parameters:
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+**id** | string | yes | ID of the post to claim
+**token** | string | yes | Modify token of the post
+
+### Returns
+
+A `200`. Since this performs an action on multiple posts, the success/failure code are contained in each resulting post returned.
+
+
 # Collections
 
 Collections are referred to as **blogs** on most of Write.as. Each gets its own shareable URL.
