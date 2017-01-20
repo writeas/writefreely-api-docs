@@ -23,6 +23,12 @@ Backwards compatibility is important to us since we have a large set of [clients
 
 This documentation represents the officially-supported, latest API. Any properties or endpoints you discover in the API that aren't documented here should be considered experimental or beta functionality, and subject to change without any notice.
 
+## Libraries
+
+We have official libraries for various programming languages, and welcome any new ones created by the community.
+
+* **Go** - `go get github.com/writeas/go-writeas` &middot; [GoDoc](https://godoc.org/github.com/writeas/go-writeas) &middot; [GitHub](https://github.com/writeas/go-writeas)
+
 ## Errors
 
 > Failed requests return with an error `code` and `error_msg`, like below.
