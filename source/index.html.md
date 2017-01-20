@@ -601,7 +601,6 @@ curl https://write.as/api/collections/new-blog/posts
         "appearance": "norm",
         "language": "",
         "rtl": false,
-        "listed": false,
         "created": "2016-07-09T14:29:33Z",
         "title": "My Post",
         "body": "This is a blog post.",
