@@ -515,6 +515,34 @@ This retrieves a collection and its metadata.
 The requested collection.
 
 
+## Delete a Collection
+
+```go
+// Currently unsupported in the Go client.
+// Use curl command or contribute at:
+//   https://github.com/writeas/writeas-go
+```
+
+```shell
+curl https://write.as/api/collections/new-blog \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
+  -H "Content-Type: application/json" \
+  -X DELETE
+```
+
+> A successful deletion returns a `204` with no content in the body.
+
+This permanently deletes a collection and makes any posts on it anonymous.
+
+### Definition
+
+`DELETE https://write.as/api/collections/{COLLECTION_ALIAS}`
+
+### Returns
+
+A `204` status code and no content in the body.
+
+
 ## Publish a Collection Post
 
 ```go
