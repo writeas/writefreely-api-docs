@@ -401,7 +401,7 @@ A `200`. Since this performs an action on multiple posts, the success/failure co
 
 Collections are referred to as **blogs** on most of Write.as. Each gets its own shareable URL.
 
-Each user has one collection matching their username, but can also have more collections connected to their account as a Pro user.
+Each user has one collection matching their username, but can also have more collections connected to their account as a [Casual or Pro](https://write.as/subscribe) user.
 
 <aside class="notice">
 All collection requests except retrieval must be <a href="#authentication">authenticated</a>.
@@ -438,7 +438,7 @@ curl "https://write.as/api/collections" \
 }
 ```
 
-This creates a new collection. **Pro user required**.
+This creates a new collection. **Casual or Pro user required**.
 
 ### Definition
 
