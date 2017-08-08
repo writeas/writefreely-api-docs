@@ -410,9 +410,11 @@ All collection requests except retrieval must be <a href="#authentication">authe
 ## Create a Collection
 
 ```go
-// Currently unsupported in the Go client.
-// Use curl command or contribute at:
-//   https://github.com/writeas/writeas-go
+c := NewClient()
+coll, err := c.CreateCollection(&CollectionParams{
+	Alias: "new-blog",
+	Title: "The Best Blog Ever",
+})
 ```
 
 ```shell
@@ -480,9 +482,8 @@ Error Code | Meaning
 ## Retrieve a Collection
 
 ```go
-// Currently unsupported in the Go client.
-// Use curl command or contribute at:
-//   https://github.com/writeas/writeas-go
+c := NewClient()
+coll, err := c.GetCollection("new-blog")
 ```
 
 ```shell
