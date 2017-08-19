@@ -112,7 +112,7 @@ Users can choose between different appearances for each post, usually passed to 
 ## Publish a Post
 
 ```go
-c := NewClient()
+c := writeas.NewClient()
 p, err := c.CreatePost(&PostParams{
 	Title:   "My First Post",
 	Content: "This is a post.",
@@ -218,7 +218,7 @@ This retrieves a post entity. It includes extra Write.as data, such as page view
 ## Update a Post
 
 ```go
-c := NewClient()
+c := writeas.NewClient()
 p, err := c.UpdatePost(&PostParams{
 	ID:      "rf3t35fkax0aw",
 	Token:   "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M",
@@ -325,7 +325,7 @@ An error `410` with a message: _Post unpublished by author._
 ## Delete a Post
 
 ```go
-c := NewClient()
+c := writeas.NewClient()
 err := c.DeletePost(&PostParams{
 	ID:    "rf3t35fkax0aw",
 	Token: "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M",
@@ -359,7 +359,7 @@ A `204` status code and no content in the body.
 ## Claim Posts
 
 ```go
-c := NewClient()
+c := writeas.NewClient()
 c.SetToken("00000000-0000-0000-0000-000000000000")
 err := c.ClaimPosts(&[]OwnedPostParams{
 	{
@@ -411,7 +411,7 @@ All collection requests except retrieval must be <a href="#authentication">authe
 ## Create a Collection
 
 ```go
-c := NewClient()
+c := writeas.NewClient()
 c.SetToken("00000000-0000-0000-0000-000000000000")
 coll, err := c.CreateCollection(&CollectionParams{
 	Alias: "new-blog",
@@ -484,7 +484,7 @@ Error Code | Meaning
 ## Retrieve a Collection
 
 ```go
-c := NewClient()
+c := writeas.NewClient()
 coll, err := c.GetCollection("new-blog")
 ```
 
@@ -733,7 +733,7 @@ However, Write.as is also set up to work well pseudo- and anonymously at the sam
 ## Authenticate a User
 
 ```go
-c := NewClient()
+c := writeas.NewClient()
 u, err := c.LogIn("matt", "12345")
 ```
 
