@@ -360,6 +360,7 @@ A `204` status code and no content in the body.
 
 ```go
 c := NewClient()
+c.SetToken("00000000-0000-0000-0000-000000000000")
 err := c.ClaimPosts(&[]OwnedPostParams{
 	{
 		ID:    "rf3t35fkax0aw",
@@ -411,6 +412,7 @@ All collection requests except retrieval must be <a href="#authentication">authe
 
 ```go
 c := NewClient()
+c.SetToken("00000000-0000-0000-0000-000000000000")
 coll, err := c.CreateCollection(&CollectionParams{
 	Alias: "new-blog",
 	Title: "The Best Blog Ever",
