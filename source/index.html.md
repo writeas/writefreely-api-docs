@@ -771,6 +771,55 @@ Parameter | Type | Required | Description
 A `200` at the top level for all requests. `data` contains an array of response envelopes: each with `code` and `id`, plus `error_msg` on failure for any given post.
 
 
+## Unpin a Post from a Collection
+
+```go
+// Currently unsupported in the Go client.
+// Use curl command or contribute at:
+//   https://github.com/writeas/writeas-go
+```
+
+```shell
+curl "https://write.as/api/collections/new-blog/unpin" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d '[{"id": "rf3t35fkax0aw"}]'
+```
+
+> Example Response
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "id": "rf3t35fkax0aw",
+      "code": 200
+    }
+  ]
+}
+```
+
+This unpins a blog post from a collection. It'll remove the navigation item from the collection/blog home page header and put the post back on the blog itself.
+
+### Definition
+
+`POST https://write.as/api/collections/{COLLECTION_ALIAS}/unpin`
+
+### Arguments
+
+Pass an array of objects, each containing the following parameters:
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+**id** | string | yes | The ID of the post to unpin from the collection
+
+### Returns
+
+A `200` at the top level for all requests. `data` contains an array of response envelopes: each with `code` and `id`, plus `error_msg` on failure for any given post.
+
+
 # Users
 
 Users have posts and collections associated with them that can be accessed across devices and browsers.
