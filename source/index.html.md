@@ -147,7 +147,7 @@ curl "https://write.as/api/posts" \
 }
 ```
 
-This creates a new post, associating it with a user account if authenticated. If the request is successful, the post will be available at:
+This creates a new post, associating it with a user account if authenticated. If the request is successful, the post will be available all of these locations:
 
 * write.as/`{id}`
 * writeas7pm7rcdqg.onion/`{id}`
