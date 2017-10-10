@@ -574,7 +574,7 @@ curl "https://write.as/api/collections/new-blog/posts" \
   "code": 201,
   "data": {
     "id": "rf3t35fkax0aw",
-    "slug": null,
+    "slug": "my-first-post",
     "token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M",
     "appearance": "norm",
     "language": "",
