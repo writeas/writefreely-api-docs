@@ -25,10 +25,14 @@ This documentation represents the officially-supported, latest API. Any properti
 
 ## Libraries
 
-We have official libraries for various programming languages, and welcome any new ones created by the community.
+These are our official libraries in different programming languages.
 
 * **Go** - `go get github.com/writeas/go-writeas` &middot; [GoDoc](https://godoc.org/github.com/writeas/go-writeas) &middot; [GitHub](https://github.com/writeas/go-writeas)
 * **Java** - [GitHub](https://github.com/writeas/java-writeas)
+
+These libraries were created by the community &mdash; [let us know](https://write.as/contact) if you create one, too!
+
+* **Javascript** - `npm install writeas` &middot; [npm](https://www.npmjs.com/package/writeas) &middot; [GitHub](https://github.com/devsnek/writeas.js)
 
 ## Errors
 
