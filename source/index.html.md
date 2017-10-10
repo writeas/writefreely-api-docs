@@ -28,6 +28,7 @@ This documentation represents the officially-supported, latest API. Any properti
 We have official libraries for various programming languages, and welcome any new ones created by the community.
 
 * **Go** - `go get github.com/writeas/go-writeas` &middot; [GoDoc](https://godoc.org/github.com/writeas/go-writeas) &middot; [GitHub](https://github.com/writeas/go-writeas)
+* **Java** - [GitHub](https://github.com/writeas/java-writeas)
 
 ## Errors
 
