@@ -529,7 +529,7 @@ This retrieves a collection and its metadata.
 
 ### Authentication
 
-This doesn't require [authentication](#authentication) except when retrieving a private collection.
+Collections can be retrieved without authentication. However, [authentication](#authentication) is required for retrieving a private collection or one with scheduled posts.
 
 ### Definition
 
@@ -673,6 +673,10 @@ curl https://write.as/api/collections/new-blog/posts
 ```
 
 This retrieves a collection's posts along with the collection's data.
+
+### Authentication
+
+Collection posts can be retrieved without authentication. However, [authentication](#authentication) is required for retrieving a private collection or one with scheduled posts.
 
 ### Definition
 
