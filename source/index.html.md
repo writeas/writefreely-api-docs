@@ -158,6 +158,14 @@ This creates a new post, associating it with a user account if authenticated. If
 * writeas7pm7rcdqg.onion/`{id}`
 * paste.as/`{id}` -- if `font` was _code_ or _mono_
 
+### Authentication
+
+This can be done anonymously or while [authenticated](#authentication).
+
+<aside class="notice">
+When the request is unauthenticated, the client should store the <code>token</code> returned from this request so users can modify their post later. Otherwise it isn't necessary.
+</aside>
+
 ### Definition
 
 `POST https://write.as/api/posts`
@@ -177,9 +185,6 @@ Parameter | Type | Required | Description
 
 The newly created post.
 
-<aside class="notice">
-When the request is unauthenticated, the client should store the <code>token</code> returned from this request so users can modify their post later. Otherwise it isn't necessary.
-</aside>
 
 ## Retrieve a Post
 
@@ -260,6 +265,14 @@ curl "https://write.as/api/posts/rf3t35fkax0aw" \
 ```
 
 This updates an existing post.
+
+### Authentication
+
+This can be done anonymously or while [authenticated](#authentication).
+
+<aside class="notice">
+If done anonymously, it requires past knowledge of the existing post's <code>token</code>.
+</aside>
 
 ### Definition
 
@@ -410,7 +423,7 @@ Collections are referred to as **blogs** on most of Write.as. Each gets its own 
 Each user has one collection matching their username, but can also have more collections connected to their account as a [Casual or Pro](https://write.as/subscribe) user.
 
 <aside class="notice">
-All collection requests except retrieval must be <a href="#authentication">authenticated</a>.
+All collection requests must be <a href="#authentication">authenticated</a>, except for retrieval when a collection is <strong>not</strong> private.
 </aside>
 
 ## Create a Collection
@@ -513,6 +526,10 @@ curl https://write.as/api/collections/new-blog
 ```
 
 This retrieves a collection and its metadata.
+
+### Authentication
+
+This doesn't require [authentication](#authentication) except when retrieving a private collection.
 
 ### Definition
 
