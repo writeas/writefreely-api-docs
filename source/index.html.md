@@ -390,6 +390,7 @@ err := c.ClaimPosts(&[]OwnedPostParams{
 ```shell
 curl "https://write.as/api/posts/claim" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
+  -H "Content-Type: application/json" \
   -X POST \
   -d '[{"id": "rf3t35fkax0aw", "token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M"}]'
 ```
@@ -440,6 +441,7 @@ coll, err := c.CreateCollection(&CollectionParams{
 ```shell
 curl "https://write.as/api/collections" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
+  -H "Content-Type: application/json" \
   -X POST \
   -d '{"alias": "new-blog", "title": "The Best Blog Ever"}'
 ```
