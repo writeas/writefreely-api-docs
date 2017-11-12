@@ -1,6 +1,6 @@
 # Write.as API Docs
 
-View on [GitHub Pages](https://writeas.github.io/docs/).
+View the [documentation](https://developer.write.as/docs/api/).
 
 ## Getting Set Up
 
