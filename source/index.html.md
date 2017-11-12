@@ -957,9 +957,7 @@ curl "https://write.as/api/me" \
 
 ### Arguments
 
-Parameter | Type | Required | Description
---------- | ---- | -------- | -----------
-**verbose** | boolean | no | `true` if you want the user's complete data, including posts and collections.
+None.
 
 ### Returns
 
