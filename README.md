@@ -45,6 +45,7 @@ sudo apt-get install ruby2.2-dev
 3. `cd slate`
 4. Initialize and start Slate. You can either do this locally, or with Vagrant:
 
+```
 # either run this to run locally
 bundle install
 bundle exec middleman server
