@@ -925,6 +925,62 @@ Error Code | Meaning
 429 | You're trying to log in too many times too quickly. You shouldn't see this unless you're doing something bad (in which case, please stop that).
 
 
+## Retrieve Authenticated User
+
+```go
+// Currently unsupported in the Go client.
+// Use curl command or contribute at:
+//   https://github.com/writeas/writeas-go
+```
+
+```shell
+curl "https://write.as/api/me" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
+  -H "Content-Type: application/json" \
+  -X GET
+```
+
+> Example Response
+
+```json
+{
+  "code": 200,
+  "data": {
+    "username": "matt"
+  }
+}
+```
+
+### Definition
+
+`GET https://write.as/api/me`
+
+### Arguments
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+**verbose** | boolean | no | `true` if you want the user's complete data, including posts and collections.
+
+### Returns
+
+An authenticated user's basic data.
+
+### Errors
+
+Errors are returned with a user-friendly error message.
+
+```json
+{
+  "code": 401,
+  "error_msg": "Invalid access token."
+}
+```
+
+Error Code | Meaning
+---------- | -------
+401 | Access token is invalid or expired.
+
+
 # Integrations
 
 Write.as integrates with other services on the web to provide features like crossposting upon publishing a Write.as post.
