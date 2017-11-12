@@ -979,6 +979,69 @@ Error Code | Meaning
 401 | Access token is invalid or expired.
 
 
+## Retrieve User's Collections
+
+```go
+// Currently unsupported in the Go client.
+// Use curl command or contribute at:
+//   https://github.com/writeas/writeas-go
+```
+
+```shell
+curl "https://write.as/api/me/collections" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
+  -H "Content-Type: application/json" \
+  -X GET
+```
+
+> Example Response
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "alias": "matt",
+      "title": "Matt",
+      "description": "My great blog!",
+      "style_sheet": "",
+      "public": true,
+      "views": 46,
+      "email": "matt-7e7euebput9t5jr3v4csgferutf@writeas.com",
+      "url": "https://write.as/matt/"
+    }
+  ]
+}
+```
+
+### Definition
+
+`GET https://write.as/api/me/collections`
+
+### Arguments
+
+None.
+
+### Returns
+
+All of an authenticated user's owned collections.
+
+### Errors
+
+Errors are returned with a user-friendly error message.
+
+```json
+{
+  "code": 401,
+  "error_msg": "Invalid access token."
+}
+```
+
+Error Code | Meaning
+---------- | -------
+401 | Access token is invalid or expired.
+
+
 # Integrations
 
 Write.as integrates with other services on the web to provide features like crossposting upon publishing a Write.as post.
