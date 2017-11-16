@@ -687,6 +687,14 @@ Collection posts can be retrieved without authentication. However, [authenticati
 
 `GET https://write.as/api/collections/{COLLECTION_ALIAS}/posts`
 
+### Arguments
+
+Query string parameters can be passed to affect post presentation.
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+**body** | string | no | Desired post body format. Can be left blank for raw text, or `html` to get back HTML generated from Markdown.
+
 ### Returns
 
 The requested collection and its posts in a `posts` array.
