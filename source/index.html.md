@@ -647,7 +647,7 @@ curl https://write.as/api/collections/new-blog/posts
 
 ```json
 { 
-  "code":200,
+  "code": 200,
   "data": {  
     "alias": "new-blog",
     "title": "The Best Blog Ever",
@@ -658,7 +658,7 @@ curl https://write.as/api/collections/new-blog/posts
     "posts": [
       {
         "id": "hjb7cvwaevy9eayp",
-        "slug": "my-post",
+        "slug": "my-first-post",
         "appearance": "norm",
         "language": "",
         "rtl": false,
