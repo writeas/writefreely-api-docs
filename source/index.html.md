@@ -800,7 +800,7 @@ Pass an array of objects, each containing the following parameters:
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 **id** | string | yes | The ID of the post to pin to the collection
-**position** | integer | no | The numeric position in which to pin the post. Will pin at end of list if parameter not given.
+**position** | integer | no | The numeric position in which to pin the post. Will pin at end of list if no parameter is given.
 
 ### Returns
 
