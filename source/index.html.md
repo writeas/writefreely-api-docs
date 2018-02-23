@@ -1137,6 +1137,72 @@ Error Code | Meaning
 401 | Access token is invalid or expired.
 
 
+## Retrieve User's Channels
+
+```go
+// Currently unsupported in the Go client.
+// Use curl command or contribute at:
+//   https://github.com/writeas/writeas-go
+```
+
+```shell
+curl "https://write.as/api/me/channels" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
+  -H "Content-Type: application/json" \
+  -X GET
+```
+
+> Example Response
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "id":"twitter",
+      "name":"Twitter",
+      "username":"ilikebeans"
+    },
+    {
+      "id":"mastodon",
+      "url":"writing.exchange",
+      "name":"writing.exchange",
+      "username":"matt"
+    }
+  ]
+}
+```
+
+### Definition
+
+`GET https://write.as/api/me/channels`
+
+### Arguments
+
+None.
+
+### Returns
+
+An array of the authenticated user's connected channels, or _integrations_.
+
+For channels that aren't a centralized service, like Mastodon, you'll also see a `url` property of the specific instance or host that the user has connected to.
+
+### Errors
+
+Errors are returned with a user-friendly error message.
+
+```json
+{
+  "code": 401,
+  "error_msg": "Invalid access token."
+}
+```
+
+Error Code | Meaning
+---------- | -------
+401 | Access token is invalid or expired.
+
+
 # Integrations
 
 Write.as integrates with other services on the web to provide features like crossposting upon publishing a Write.as post.
