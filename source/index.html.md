@@ -570,6 +570,54 @@ This permanently deletes a collection and makes any posts on it anonymous.
 A `204` status code and no content in the body.
 
 
+## Retrieve a Collection Post
+
+```go
+// Currently unsupported in the Go client.
+// Use curl command or contribute at:
+//   https://github.com/writeas/writeas-go
+```
+
+```shell
+curl https://write.as/api/collections/new-blog/posts/my-first-post
+```
+
+> Example Response
+
+```json
+{
+  "code": 200,
+  "data": {
+	"id": "hjb7cvwaevy9eayp",
+	"slug": "my-first-post",
+	"appearance": "norm",
+	"language": "",
+	"rtl": false,
+	"created": "2016-07-09T14:29:33Z",
+	"title": "My First Post",
+	"body": "This is a blog post.",
+	"tags": [
+	],
+	"views": 0
+  }
+}
+```
+
+This retrieves a single post from a collection by the post's slug.
+
+### Authentication
+
+Collection posts can be retrieved without authentication. However, [authentication](#authentication) is required for retrieving a post from a private collection.
+
+### Definition
+
+`GET https://write.as/api/collections/{COLLECTION_ALIAS}/posts/{SLUG}`
+
+### Returns
+
+The requested collection post.
+
+
 ## Publish a Collection Post
 
 ```go
