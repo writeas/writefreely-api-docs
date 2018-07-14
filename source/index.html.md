@@ -631,7 +631,7 @@ curl "https://write.as/api/collections/new-blog/posts" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
-  -d '{"body": "This is a blog post.", "title": "My Post"}'
+  -d '{"body": "This is a blog post.", "title": "My First Post"}'
 ```
 
 > Example Response
@@ -711,7 +711,7 @@ curl https://write.as/api/collections/new-blog/posts
         "language": "",
         "rtl": false,
         "created": "2016-07-09T14:29:33Z",
-        "title": "My Post",
+        "title": "My First Post",
         "body": "This is a blog post.",
         "tags": [
         ],
