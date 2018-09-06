@@ -457,6 +457,7 @@ curl "https://write.as/api/collections" \
     "description": "",
     "style_sheet": "",
     "email": "new-blog-wjn6epspzjqankz41mlfvz@writeas.com",
+    "views": 0,
     "total_posts": 0
   }
 }
@@ -522,6 +523,8 @@ curl https://write.as/api/collections/new-blog
     "title": "The Best Blog Ever",
     "description": "",
     "style_sheet": "",
+    "public": true,
+    "views": 9,
     "total_posts": 0
   }
 }
