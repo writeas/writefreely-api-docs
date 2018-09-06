@@ -256,7 +256,7 @@ curl "https://write.as/api/posts/rf3t35fkax0aw" \
     "rtl": false,
     "created": "2016-07-09T01:43:05Z",
     "title": "My First Post",
-    "body": "This is an updated post.",
+    "body": "My post is updated.",
     "tags": [  
     ],
     "views": 0
