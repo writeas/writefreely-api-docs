@@ -168,7 +168,7 @@ When the request is unauthenticated, the client should store the <code>token</co
 
 ### Definition
 
-`POST https://write.as/api/posts`
+`POST /api/posts`
 
 ### Arguments
 
@@ -222,7 +222,7 @@ This retrieves a post entity. It includes extra Write.as data, such as page view
 
 ### Definition
 
-`GET https://write.as/api/posts/{POST_ID}`
+`GET /api/posts/{POST_ID}`
 
 
 ## Update a Post
@@ -276,7 +276,7 @@ If done anonymously, it requires past knowledge of the existing post's <code>tok
 
 ### Definition
 
-`POST https://write.as/api/posts/{POST_ID}`
+`POST /api/posts/{POST_ID}`
 
 ### Arguments
 
@@ -327,7 +327,7 @@ The client will likely want to maintain what was in the body before the post was
 
 ### Definition
 
-`POST https://write.as/api/posts/{POST_ID}`
+`POST /api/posts/{POST_ID}`
 
 ### Arguments
 
@@ -361,7 +361,7 @@ This deletes a post.
 
 ### Definition
 
-`DELETE https://write.as/api/posts/{POST_ID}`
+`DELETE /api/posts/{POST_ID}`
 
 ### Arguments
 
@@ -401,7 +401,7 @@ This adds unowned posts to a Write.as user / account.
 
 ### Definition
 
-`POST https://write.as/api/posts/claim`
+`POST /api/posts/claim`
 
 ### Arguments
 
@@ -466,7 +466,7 @@ This creates a new collection. **Casual or Pro user required**.
 
 ### Definition
 
-`POST https://write.as/api/collections`
+`POST /api/collections`
 
 ### Arguments
 
@@ -535,7 +535,7 @@ Collections can be retrieved without authentication. However, [authentication](#
 
 ### Definition
 
-`GET https://write.as/api/collections/{COLLECTION_ALIAS}`
+`GET /api/collections/{COLLECTION_ALIAS}`
 
 ### Returns
 
@@ -563,7 +563,7 @@ This permanently deletes a collection and makes any posts on it anonymous.
 
 ### Definition
 
-`DELETE https://write.as/api/collections/{COLLECTION_ALIAS}`
+`DELETE /api/collections/{COLLECTION_ALIAS}`
 
 ### Returns
 
@@ -611,7 +611,7 @@ Collection posts can be retrieved without authentication. However, [authenticati
 
 ### Definition
 
-`GET https://write.as/api/collections/{COLLECTION_ALIAS}/posts/{SLUG}`
+`GET /api/collections/{COLLECTION_ALIAS}/posts/{SLUG}`
 
 ### Returns
 
@@ -659,7 +659,7 @@ This creates a new post and adds it to the given collection. User must be authen
 
 ### Definition
 
-`POST https://write.as/api/collections/{COLLECTION_ALIAS}/posts`
+`POST /api/collections/{COLLECTION_ALIAS}/posts`
 
 ### Arguments
 
@@ -730,7 +730,7 @@ Collection posts can be retrieved without authentication. However, [authenticati
 
 ### Definition
 
-`GET https://write.as/api/collections/{COLLECTION_ALIAS}/posts`
+`GET /api/collections/{COLLECTION_ALIAS}/posts`
 
 ### Arguments
 
@@ -789,7 +789,7 @@ This adds a group of posts to a collection. This works for either posts that wer
 
 ### Definition
 
-`POST https://write.as/api/collections/{COLLECTION_ALIAS}/collect`
+`POST /api/collections/{COLLECTION_ALIAS}/collect`
 
 ### Arguments
 
@@ -839,7 +839,7 @@ This pins a blog post to a collection. It'll show up as a navigation item in the
 
 ### Definition
 
-`POST https://write.as/api/collections/{COLLECTION_ALIAS}/pin`
+`POST /api/collections/{COLLECTION_ALIAS}/pin`
 
 ### Arguments
 
@@ -889,7 +889,7 @@ This unpins a blog post from a collection. It'll remove the navigation item from
 
 ### Definition
 
-`POST https://write.as/api/collections/{COLLECTION_ALIAS}/unpin`
+`POST /api/collections/{COLLECTION_ALIAS}/unpin`
 
 ### Arguments
 
@@ -949,7 +949,7 @@ Users can only authenticate with their primary account, i.e. the first collectio
 
 ### Definition
 
-`POST https://write.as/api/auth/login`
+`POST /api/auth/login`
 
 ### Arguments
 
@@ -1009,7 +1009,7 @@ curl "https://write.as/api/me" \
 
 ### Definition
 
-`GET https://write.as/api/me`
+`GET /api/me`
 
 ### Arguments
 
@@ -1096,7 +1096,7 @@ curl "https://write.as/api/me/posts" \
 
 ### Definition
 
-`GET https://write.as/api/me/posts`
+`GET /api/me/posts`
 
 ### Arguments
 
@@ -1159,7 +1159,7 @@ curl "https://write.as/api/me/collections" \
 
 ### Definition
 
-`GET https://write.as/api/me/collections`
+`GET /api/me/collections`
 
 ### Arguments
 
@@ -1223,7 +1223,7 @@ curl "https://write.as/api/me/channels" \
 
 ### Definition
 
-`GET https://write.as/api/me/channels`
+`GET /api/me/channels`
 
 ### Arguments
 
