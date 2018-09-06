@@ -118,7 +118,7 @@ Users can choose between different appearances for each post, usually passed to 
 
 ```go
 c := writeas.NewClient()
-p, err := c.CreatePost(&PostParams{
+p, err := c.CreatePost(&writeas.PostParams{
 	Title:   "My First Post",
 	Content: "This is a post.",
 })
@@ -229,7 +229,7 @@ This retrieves a post entity. It includes extra Write.as data, such as page view
 
 ```go
 c := writeas.NewClient()
-p, err := c.UpdatePost(&PostParams{
+p, err := c.UpdatePost(&writeas.PostParams{
 	ID:      "rf3t35fkax0aw",
 	Token:   "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M",
 	Content: "My post is updated.",
@@ -344,7 +344,7 @@ An error `410` with a message: _Post unpublished by author._
 
 ```go
 c := writeas.NewClient()
-err := c.DeletePost(&PostParams{
+err := c.DeletePost(&writeas.PostParams{
 	ID:    "rf3t35fkax0aw",
 	Token: "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M",
 })
