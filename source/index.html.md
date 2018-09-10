@@ -657,7 +657,15 @@ curl "https://write.as/api/collections/new-blog/posts" \
     "title": "My First Post",
     "body": "This is a post.",
     "tags": [
-    ]
+    ],
+    "collection": {
+      "alias": "new-blog",
+      "title": "The Best Blog Ever",
+      "description": "",
+      "style_sheet": "",
+      "public": true,
+      "url": "https://write.as/new-blog/"
+    }
   }
 }
 ```
