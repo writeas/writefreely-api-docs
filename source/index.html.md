@@ -624,9 +624,13 @@ The requested collection post.
 ## Publish a Collection Post
 
 ```go
-// Currently unsupported in the Go client.
-// Use curl command or contribute at:
-//   https://github.com/writeas/writeas-go
+c := writeas.NewClient()
+c.SetToken("00000000-0000-0000-0000-000000000000")
+p, err := c.CreatePost(&writeas.PostParams{
+	Title:      "My First Post",
+	Content:    "This is a post.",
+	Collection: "new-blog",
+})
 ```
 
 ```shell
