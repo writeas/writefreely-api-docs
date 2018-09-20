@@ -825,9 +825,12 @@ A `200` at the top level for all requests. `data` contains an array of response 
 ## Pin a Post to a Collection
 
 ```go
-// Currently unsupported in the Go client.
-// Use curl command or contribute at:
-//   https://github.com/writeas/writeas-go
+c := writeas.NewClient()
+c.SetToken("00000000-0000-0000-0000-000000000000")
+err := c.PinPost(&writeas.PinnedPostParams{
+	ID:       "rf3t35fkax0aw",
+	Position: 1,
+})
 ```
 
 ```shell
@@ -875,9 +878,11 @@ A `200` at the top level for all requests. `data` contains an array of response 
 ## Unpin a Post from a Collection
 
 ```go
-// Currently unsupported in the Go client.
-// Use curl command or contribute at:
-//   https://github.com/writeas/writeas-go
+c := writeas.NewClient()
+c.SetToken("00000000-0000-0000-0000-000000000000")
+err := c.UnpinPost(&writeas.PinnedPostParams{
+	ID: "rf3t35fkax0aw",
+})
 ```
 
 ```shell
