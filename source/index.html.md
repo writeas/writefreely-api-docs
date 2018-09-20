@@ -1142,9 +1142,9 @@ Error Code | Meaning
 ## Retrieve User's Collections
 
 ```go
-// Currently unsupported in the Go client.
-// Use curl command or contribute at:
-//   https://github.com/writeas/writeas-go
+c := writeas.NewClient()
+c.SetToken("00000000-0000-0000-0000-000000000000")
+colls, err := c.GetUserCollections()
 ```
 
 ```shell
