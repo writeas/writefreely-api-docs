@@ -819,7 +819,7 @@ Parameter | Type | Required | Description
 
 ### Returns
 
-A `200` at the top level for all requests. `data` contains an array of response envelopes: each with `code` and `post` (with full post data) on success, or `code` and `error_msg` on failure for any given post.
+A `200` at the top level for all valid, authenticated requests. `data` contains an array of response envelopes: each with `code` and `post` (with full post data) on success, or `code` and `error_msg` on failure for any given post.
 
 
 ## Pin a Post to a Collection
@@ -872,7 +872,7 @@ Parameter | Type | Required | Description
 
 ### Returns
 
-A `200` at the top level for all requests. `data` contains an array of response envelopes: each with `code` and `id`, plus `error_msg` on failure for any given post.
+A `200` at the top level for all valid, authenticated requests. `data` contains an array of response envelopes: each with `code` and `id`, plus `error_msg` on failure for any given post.
 
 
 ## Unpin a Post from a Collection
@@ -923,7 +923,7 @@ Parameter | Type | Required | Description
 
 ### Returns
 
-A `200` at the top level for all requests. `data` contains an array of response envelopes: each with `code` and `id`, plus `error_msg` on failure for any given post.
+A `200` at the top level for all valid, authenticated requests. `data` contains an array of response envelopes: each with `code` and `id`, plus `error_msg` on failure for any given post.
 
 
 # Users
