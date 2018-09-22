@@ -1003,6 +1003,52 @@ Error Code | Meaning
 429 | You're trying to log in too many times too quickly. You shouldn't see this unless you're doing something bad (in which case, please stop that).
 
 
+## Log User Out
+
+```go
+c := writeas.NewClient()
+c.SetToken("00000000-0000-0000-0000-000000000000")
+err := c.LogOut()
+```
+
+```shell
+curl "https://write.as/api/auth/me" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
+  -X DELETE
+```
+> A successful deletion returns a `204` with no content in the body.
+
+Un-authenticates a user with Write.as, permanently invalidating the access token used with the request.
+
+<aside class="warning">
+This is important for keeping accounts secure, so that users keep access to their account limited to as few devices as possible. <em>Always</em> consider building this functionality into your Write.as clients.
+</aside>
+
+### Definition
+
+`DELETE /api/auth/me`
+
+### Returns
+
+A `204` status code and no content in the body.
+
+### Errors
+
+Errors are returned with a user-friendly error message.
+
+```json
+{
+  "code": 404,
+  "error_msg": "Token is invalid."
+}
+```
+
+Error Code | Meaning
+---------- | -------
+400 | Request is missing an access token / Authorization header
+404 | Token is invalid.
+
+
 ## Retrieve Authenticated User
 
 ```go
