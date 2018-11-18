@@ -183,6 +183,7 @@ Parameter | Type | Required | Description
 **font** | string | no | One of any post appearance types [listed above](#posts). If invalid, defaults to `serif`.
 **lang** | string | no | ISO 639-1 language code, e.g. _en_ or _de_.
 **rtl** | boolean | no | Whether or not the content should be display right-to-left, for example if written in Arabic or Hebrew.
+**created** | date | no | An optional _published_ date for the post, formatted `2006-01-02T15:04:05Z`.
 **crosspost** | array | no | **Must be authenticated**. An array of integrations and associated usernames to post to. See [Crossposting](#crossposting).
 
 ### Returns
@@ -691,6 +692,7 @@ Parameter | Type | Required | Description
 **font** | string | no | One of any post appearance types [listed above](#posts). If invalid, defaults to `serif`.
 **lang** | string | no | ISO 639-1 language code, e.g. _en_ or _de_.
 **rtl** | boolean | no | Whether or not the content should be display right-to-left, for example if written in Arabic or Hebrew.
+**created** | date | no | An optional _published_ date for the post, formatted `2006-01-02T15:04:05Z`.
 **crosspost** | array | no | An array of integrations and associated usernames to post to. See [Crossposting](#crossposting).
 
 ### Returns
