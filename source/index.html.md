@@ -6,10 +6,12 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - go
 
 toc_footers:
-  - <a href='https://writing.exchange/@write_as'>@write_as on Mastodon</a>
+  - <a href='https://developers.write.as'>Developers Write.as</a>
   - <a href='https://m.abunchtell.com/@writeas_dev'>@writeas_dev on Mastodon</a>
+  - <a href='https://writing.exchange/@write_as'>@write_as on Mastodon</a>
   - <a href='https://twitter.com/writeas__'>@writeas__</a>
   - <a href='https://write.as/blog/'>Updates</a>
+  - <a href='https://write.as'>Write.as</a>
   - <a href='https://github.com/lord/slate'>Docs by Slate</a>
 
 search: true
