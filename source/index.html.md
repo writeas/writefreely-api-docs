@@ -31,7 +31,7 @@ This documentation represents the officially-supported, latest API. Any properti
 
 These are our official libraries in different programming languages.
 
-* **Go** - `go get github.com/writeas/go-writeas` &middot; [GoDoc](https://godoc.org/github.com/writeas/go-writeas) &middot; [GitHub](https://github.com/writeas/go-writeas)
+* **Go** - `go get go.code.as/writeas.v1` &middot; [GoDoc](https://godoc.org/go.code.as/writeas.v1) &middot; [GitHub](https://github.com/writeas/go-writeas)
 * **Java** - [GitHub](https://github.com/writeas/java-writeas)
 
 These libraries were created by the community &mdash; [let us know](https://write.as/contact) if you create one, too!
