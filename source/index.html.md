@@ -1,5 +1,5 @@
 ---
-title: Write.as API Documentation
+title: WriteFreely API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
@@ -19,9 +19,11 @@ search: true
 
 # Introduction
 
-Welcome to the [Write.as](https://write.as) API! Our API gives you full access to Write.as data and lets you build your own applications or utilities on top of it.
+Welcome to the [WriteFreely](https://writefreely.org) API! Our API gives you full access to your WriteFreely instance's data and lets you build your own applications or utilities on top of it.
 
-Our API is accessible at **https://write.as/api/** (HTTPS _only_) and via our Tor hidden service at **writeas7pm7rcdqg.onion/api/**.
+The API is accessible at **https://{your instance url}/api/** (HTTPS _only_).
+
+For these examples, we will be using an example WriteFreely instance, https://pencil.writefreely.dev/api/ , so make sure to replace that with your own WriteFreely instance's URL.
 
 Backwards compatibility is important to us since we have a large set of [clients](https://write.as/apps) in the wild. As we add new features, we usually add endpoints and properties alongside existing ones, but don't remove or change finalized ones that are documented here. If a breaking API change is required in the future, we'll version new endpoints and update these docs.
 
@@ -49,8 +51,8 @@ These libraries were created by the community &mdash; [let us know](https://writ
 }
 ```
 
-The Write.as API uses conventional HTTP response codes to indicate the status of an API request. Codes in the `2xx` range indicate success or that more information is available in the returned data, in the case of bulk actions.
-Codes in the `4xx` range indicate that the request failed with the information provided. Codes in the `5xx` range indicate an error with the Write.as servers (you shouldn't see many of these).
+The WriteFreely API uses conventional HTTP response codes to indicate the status of an API request. Codes in the `2xx` range indicate success or that more information is available in the returned data, in the case of bulk actions.
+Codes in the `4xx` range indicate that the request failed with the information provided. Codes in the `5xx` range indicate an error with your WriteFreely instance's server (you shouldn't see many of these).
 
 Error Code | Meaning
 ---------- | -------
@@ -91,7 +93,7 @@ Most endpoints <em>accept</em> both form data or JSON, assuming form data by def
 
 # Authentication
 
-The API doesn't require any authentication, either for the client or end user. However, if you want to perform actions on behalf of a user, you'll need to pass a user access token with any requests:
+The API requires authentication. If you want to perform actions on behalf of a user on your WriteFreely instance, you'll need to pass a user access token with any requests:
 
 `Authorization: Token 00000000-0000-0000-0000-000000000000`
 
@@ -104,9 +106,7 @@ Replace <code>00000000-0000-0000-0000-000000000000</code> with a user's access t
 
 # Posts
 
-Posts are the most basic entities on Write.as. Each can have its own appearance, and isn't connected to any other Write.as entity by default. They can exist without an owner (user), or with an owner but no collection, or with both an owner and collection.
-
-When posts are published with no owner, it's up to the client to remember the posts a user has published. By keeping this information on the client, users can write anonymously -- both according to Write.as and to anyone who reads any given post.
+Posts are the most basic entities on WriteFreely. They can with an owner but no collection (a "draft") or with both an owner and collection (a "collection post").
 
 Users can choose between different appearances for each post, usually passed to and from the API as a `font` property:
 
@@ -118,21 +118,22 @@ Users can choose between different appearances for each post, usually passed to 
 | `mono` | Monospace | No | paste.as |
 | `code` | Syntax-highlighted monospace | No | paste.as |
 
-## Publish a Post
+## Publish a Draft
 
 ```go
 c := writeas.NewClient()
 p, err := c.CreatePost(&writeas.PostParams{
-	Title:   "My First Post",
-	Content: "This is a post.",
+	Title:   "My First Draft",
+	Content: "This is a draft.",
 })
 ```
 
 ```shell
-curl "https://write.as/api/posts" \
+curl "https://pencil.writefreely.dev/api/posts" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
-  -d '{"body": "This is a post.", "title": "My First Post"}'
+  -d '{"body": "This is a draft.", "title": "My First Draft"}'
 ```
 
 > Example Response
@@ -148,27 +149,15 @@ curl "https://write.as/api/posts" \
     "language": "",
     "rtl": false,
     "created": "2016-07-09T01:43:46Z",
-    "title": "My First Post",
-    "body": "This is a post.",
+    "title": "My First Draft",
+    "body": "This is a draft.",
     "tags": [
     ]
   }
 }
 ```
 
-This creates a new post, associating it with a user account if authenticated. If the request is successful, the post will be available all of these locations:
-
-* write.as/`{id}`
-* writeas7pm7rcdqg.onion/`{id}`
-* paste.as/`{id}` -- if `font` was _code_ or _mono_
-
-### Authentication
-
-This can be done anonymously or while [authenticated](#authentication).
-
-<aside class="notice">
-When the request is unauthenticated, the client should store the <code>token</code> returned from this request so users can modify their post later. Otherwise it isn't necessary.
-</aside>
+This creates a new draft, associating it with the authenticated user account. If the request is successful, the post will be available at pencil.writefreely.dev/`{id}`
 
 ### Definition
 
@@ -178,20 +167,19 @@ When the request is unauthenticated, the client should store the <code>token</co
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
-**body** | string | yes | The content of the post.
-**title** | string | no | An optional title for the post. If none is given, Write.as will try to extract one for the browser's title bar, but not change any appearance in the post itself.
+**body** | string | yes | The content of the draft.
+**title** | string | no | An optional title for the draft. If none is given, WriteFreely will try to extract one for the browser's title bar, but not change any appearance in the draft itself.
 **font** | string | no | One of any post appearance types [listed above](#posts). If invalid, defaults to `serif`.
 **lang** | string | no | ISO 639-1 language code, e.g. _en_ or _de_.
 **rtl** | boolean | no | Whether or not the content should be display right-to-left, for example if written in Arabic or Hebrew.
-**created** | date | no | An optional _published_ date for the post, formatted `2006-01-02T15:04:05Z`.
-**crosspost** | array | no | **Must be authenticated**. An array of integrations and associated usernames to post to. See [Crossposting](#crossposting).
+**created** | date | no | An optional _published_ date for the draft, formatted `2006-01-02T15:04:05Z`.
 
 ### Returns
 
-The newly created post.
+The newly created draft.
 
 
-## Retrieve a Post
+## Retrieve a Draft
 
 ```go
 c := writeas.NewClient()
@@ -199,7 +187,7 @@ p, err := c.GetPost("rf3t35fkax0aw")
 ```
 
 ```shell
-curl https://write.as/api/posts/rf3t35fkax0aw
+curl https://pencil.writefreely.dev/api/posts/rf3t35fkax0aw
 ```
 
 > Example Response
@@ -214,8 +202,8 @@ curl https://write.as/api/posts/rf3t35fkax0aw
     "language": "",
     "rtl": false,
     "created": "2016-07-09T01:43:05Z",
-    "title": "My First Post",
-    "body": "This is a post.",
+    "title": "My First Draft",
+    "body": "This is a draft.",
     "tags": [  
     ],
     "views": 0
@@ -223,14 +211,17 @@ curl https://write.as/api/posts/rf3t35fkax0aw
 }
 ```
 
-This retrieves a post entity. It includes extra Write.as data, such as page views and extracted hashtags.
+This retrieves a post entity. It includes extra WriteFreely data, such as page views and extracted hashtags.
+
+If the WriteFreely instance is private, you will need to be authenticated to retrieve a post. See the [Authenticate a User](#authenticate-a-user) section for information on logging in.
+
 
 ### Definition
 
 `GET /api/posts/{POST_ID}`
 
 
-## Update a Post
+## Update a Draft
 
 ```go
 c := writeas.NewClient()
@@ -242,10 +233,11 @@ p, err := c.UpdatePost(&writeas.PostParams{
 ```
 
 ```shell
-curl "https://write.as/api/posts/rf3t35fkax0aw" \
+curl "https://pencil.writefreely.dev/api/posts/rf3t35fkax0aw" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
-  -d '{"token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M", "body": "My post is updated."}'
+  -d '{"body": "My draft is updated."}'
 ```
 
 > Example Response
@@ -260,8 +252,8 @@ curl "https://write.as/api/posts/rf3t35fkax0aw" \
     "language": "",
     "rtl": false,
     "created": "2016-07-09T01:43:05Z",
-    "title": "My First Post",
-    "body": "My post is updated.",
+    "title": "My First Draft",
+    "body": "My draft is updated.",
     "tags": [  
     ],
     "views": 0
@@ -269,15 +261,7 @@ curl "https://write.as/api/posts/rf3t35fkax0aw" \
 }
 ```
 
-This updates an existing post.
-
-### Authentication
-
-This can be done anonymously or while [authenticated](#authentication).
-
-<aside class="notice">
-If done anonymously, it requires past knowledge of the existing post's <code>token</code>.
-</aside>
+This updates an existing draft.
 
 ### Definition
 
@@ -287,18 +271,18 @@ If done anonymously, it requires past knowledge of the existing post's <code>tok
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
-**body** | string | yes | The content of the post.
-**title** | string | no | An optional title for the post. Supplying a parameter but leaving it blank will remove any title currently on the post.
+**body** | string | yes | The content of the draft.
+**title** | string | no | An optional title for the draft. Supplying a parameter but leaving it blank will remove any title currently on the draft.
 **font** | string | no | One of any post appearance types [listed above](#posts). If invalid, it doesn't change.
 **lang** | string | no | ISO 639-1 language code, e.g. _en_ or _de_.
 **rtl** | boolean | no | Whether or not the content should be display right-to-left, for example if written in Arabic.
 
 ### Returns
 
-The entire post as it stands after the update.
+The entire draft as it stands after the update.
 
 
-## Unpublish a Post
+## Unpublish a Draft
 
 ```go
 // Currently unsupported in the Go client.
@@ -307,10 +291,11 @@ The entire post as it stands after the update.
 ```
 
 ```shell
-curl "https://write.as/api/posts/rf3t35fkax0aw" \
+curl "https://pencil.writefreely.dev/api/posts/rf3t35fkax0aw" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
-  -d '{"token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M", "body": ""}'
+  -d '{"body": ""}'
 ```
 
 > Response
@@ -326,7 +311,7 @@ curl "https://write.as/api/posts/rf3t35fkax0aw" \
 <strong>Unfinalized design</strong>.
 </aside>
 
-This unpublishes an existing post. Simply pass an empty `body` to an existing post you're authorized to update, and in the future that post will return a `410 Gone` status.
+This unpublishes an existing post. Simply pass an empty `body` to an existing draft you're authorized to update, and in the future that draft will return a `410 Gone` status.
 
 The client will likely want to maintain what was in the body before the post was unpublished so it can be restored later.
 
@@ -345,7 +330,7 @@ Parameter | Type | Required | Description
 An error `410` with a message: _Post unpublished by author._
 
 
-## Delete a Post
+## Delete a Draft
 
 ```go
 c := writeas.NewClient()
@@ -356,13 +341,14 @@ err := c.DeletePost(&writeas.PostParams{
 ```
 
 ```shell
-curl "https://write.as/api/posts/rf3t35fkax0aw?token=ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M" \
+curl "https://pencil.writefreely.dev/api/posts/rf3t35fkax0aw" \
+  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -X DELETE
 ```
 
 > A successful deletion returns a `204` with no content in the body.
 
-This deletes a post.
+This deletes a draft.
 
 ### Definition
 
@@ -370,63 +356,16 @@ This deletes a post.
 
 ### Arguments
 
-Parameter | Type | Required | Description
---------- | ---- | -------- | -----------
-**token** | string | _if unauth'd_ | The post's modify token.
+None.
 
 ### Returns
 
 A `204` status code and no content in the body.
 
 
-## Claim Posts
-
-```go
-c := writeas.NewClient()
-c.SetToken("00000000-0000-0000-0000-000000000000")
-err := c.ClaimPosts(&[]OwnedPostParams{
-	{
-		ID:    "rf3t35fkax0aw",
-		Token: "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M",
-	},
-})
-```
-
-```shell
-curl "https://write.as/api/posts/claim" \
-  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
-  -H "Content-Type: application/json" \
-  -X POST \
-  -d '[{"id": "rf3t35fkax0aw", "token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M"}]'
-```
-
-> Always returns a `200`
-
-This adds unowned posts to a Write.as user / account.
-
-### Definition
-
-`POST /api/posts/claim`
-
-### Arguments
-
-The body should contain an array of objects with these parameters:
-
-Parameter | Type | Required | Description
---------- | ---- | -------- | -----------
-**id** | string | yes | ID of the post to claim
-**token** | string | yes | Modify token of the post
-
-### Returns
-
-A `200`. Since this performs an action on multiple posts, the success/failure code are contained in each resulting post returned.
-
-
 # Collections
 
-Collections are referred to as **blogs** on most of Write.as. Each gets its own shareable URL.
-
-Each user has one collection matching their username, but can also have more collections connected to their account as a [Casual or Pro](https://write.as/subscribe) user.
+Collections are referred to as **blogs** on most of WriteFreely. Each gets its own shareable URL.
 
 <aside class="notice">
 All collection requests must be <a href="#authentication">authenticated</a>, except for retrieval when a collection is <strong>not</strong> private.
@@ -444,7 +383,7 @@ coll, err := c.CreateCollection(&CollectionParams{
 ```
 
 ```shell
-curl "https://write.as/api/collections" \
+curl "https://pencil.writefreely.dev/api/collections" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
@@ -468,7 +407,7 @@ curl "https://write.as/api/collections" \
 }
 ```
 
-This creates a new collection. **Casual or Pro user required**.
+This creates a new collection.
 
 ### Definition
 
@@ -480,7 +419,7 @@ If only a `title` is given, the `alias` will be generated on the server from it.
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
-**title** | string | yes | An optional title for the post. If none is given, Write.as will try to extract one for the browser's title bar, but not change any appearance in the post itself.
+**title** | string | yes | An optional title for the post. If none is given, WriteFreely will try to extract one for the browser's title bar, but not change any appearance in the post itself.
 **alias** | string | no | One of any post appearance types [listed above](#posts). If invalid, defaults to `serif`.
 
 ### Returns
@@ -493,8 +432,8 @@ Errors are returned with a user-friendly error message.
 
 ```json
 {
-  "code": 403,
-  "error_msg": "You must be a Pro user to do that."
+  "code": 412,
+  "error_msg": "You've reached the maximum number of collections allowed."
 }
 ```
 
@@ -502,7 +441,6 @@ Error Code | Meaning
 ---------- | -------
 400 | Request is missing required information, or has bad form data / JSON.
 401 | Incorrect information given.
-403 | You're not a Pro user.
 409 | Alias is taken.
 412 | You've reached the maximum number of collections allowed.
 
@@ -515,7 +453,7 @@ coll, err := c.GetCollection("new-blog")
 ```
 
 ```shell
-curl https://write.as/api/collections/new-blog
+curl https://pencil.writefreely.dev/api/collections/new-blog
 ```
 
 > Example Response
@@ -559,7 +497,7 @@ The requested collection.
 ```
 
 ```shell
-curl https://write.as/api/collections/new-blog \
+curl https://pencil.writefreely.dev/api/collections/new-blog \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X DELETE
@@ -567,11 +505,15 @@ curl https://write.as/api/collections/new-blog \
 
 > A successful deletion returns a `204` with no content in the body.
 
-This permanently deletes a collection and makes any posts on it anonymous.
+This permanently deletes a collection and makes any posts on it drafts.
 
 ### Definition
 
 `DELETE /api/collections/{COLLECTION_ALIAS}`
+
+### Arguments
+
+None.
 
 ### Returns
 
@@ -587,7 +529,7 @@ A `204` status code and no content in the body.
 ```
 
 ```shell
-curl https://write.as/api/collections/new-blog/posts/my-first-post
+curl https://pencil.writefreely.dev/api/collections/new-blog/posts/my-first-post
 ```
 
 > Example Response
@@ -621,6 +563,10 @@ Collection posts can be retrieved without authentication. However, [authenticati
 
 `GET /api/collections/{COLLECTION_ALIAS}/posts/{SLUG}`
 
+### Arguments
+
+None.
+
 ### Returns
 
 The requested collection post.
@@ -639,7 +585,7 @@ p, err := c.CreatePost(&writeas.PostParams{
 ```
 
 ```shell
-curl "https://write.as/api/collections/new-blog/posts" \
+curl "https://pencil.writefreely.dev/api/collections/new-blog/posts" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
@@ -669,7 +615,7 @@ curl "https://write.as/api/collections/new-blog/posts" \
       "description": "",
       "style_sheet": "",
       "public": true,
-      "url": "https://write.as/new-blog/"
+      "url": "https://pencil.writefreely.dev/new-blog/"
     }
   }
 }
@@ -683,17 +629,16 @@ This creates a new post and adds it to the given collection. User must be authen
 
 ### Arguments
 
-This accepts the same arguments as [anonymous posts](#publish-a-post), plus an optional `crosspost` parameter.
+This accepts the same arguments as [draft posts](#publish-a-draft), plus an optional `crosspost` parameter.
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 **body** | string | yes | The content of the post.
-**title** | string | no | An optional title for the post. If none is given, Write.as will try to extract one for the browser's title bar, but not change any appearance in the post itself.
+**title** | string | no | An optional title for the post. If none is given, WriteFreely will try to extract one for the browser's title bar, but not change any appearance in the post itself.
 **font** | string | no | One of any post appearance types [listed above](#posts). If invalid, defaults to `serif`.
 **lang** | string | no | ISO 639-1 language code, e.g. _en_ or _de_.
 **rtl** | boolean | no | Whether or not the content should be display right-to-left, for example if written in Arabic or Hebrew.
 **created** | date | no | An optional _published_ date for the post, formatted `2006-01-02T15:04:05Z`.
-**crosspost** | array | no | An array of integrations and associated usernames to post to. See [Crossposting](#crossposting).
 
 ### Returns
 
@@ -709,13 +654,13 @@ The newly created post.
 ```
 
 ```shell
-curl https://write.as/api/collections/new-blog/posts
+curl https://pencil.writefreely.dev/api/collections/new-blog/posts
 ```
 
 > Example Response
 
 ```json
-{ 
+{
   "code": 200,
   "data": {  
     "alias": "new-blog",
@@ -766,7 +711,7 @@ Parameter | Type | Required | Description
 The requested collection and its posts in a `posts` array.
 
 
-## Move a Post to a Collection
+## Move a Draft to a Collection
 
 ```go
 // Currently unsupported in the Go client.
@@ -775,11 +720,11 @@ The requested collection and its posts in a `posts` array.
 ```
 
 ```shell
-curl "https://write.as/api/collections/new-blog/collect" \
+curl "https://pencil.writefreely.dev/api/collections/new-blog/collect" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
-  -d '[{"id": "rf3t35fkax0aw", "token": "ozPEuJWYK8L1QsysBUcTUKy9za7yqQ4M"}]'
+  -d '[{"id": "rf3t35fkax0aw"657}]'
 ```
 
 > Example Response
@@ -806,7 +751,7 @@ curl "https://write.as/api/collections/new-blog/collect" \
 }
 ```
 
-This adds a group of posts to a collection. This works for either posts that were created anonymously (i.e. don't belong to the user account) or posts already owned by the user account.
+This adds a group of drafts to a collection. This works for drafts already owned by the user account.
 
 ### Definition
 
@@ -819,7 +764,6 @@ Pass an array of objects, each containing the following parameters:
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 **id** | string | yes | The ID of the post to add to the collection
-**token** | string | maybe* | The post's modify token. *Required if the post doesn't belong to the requesting user.
 
 ### Returns
 
@@ -838,7 +782,7 @@ err := c.PinPost(&writeas.PinnedPostParams{
 ```
 
 ```shell
-curl "https://write.as/api/collections/new-blog/pin" \
+curl "https://pencil.writefreely.dev/api/collections/new-blog/pin" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
@@ -890,7 +834,7 @@ err := c.UnpinPost(&writeas.PinnedPostParams{
 ```
 
 ```shell
-curl "https://write.as/api/collections/new-blog/unpin" \
+curl "https://pencil.writefreely.dev/api/collections/new-blog/unpin" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X POST \
@@ -934,9 +878,7 @@ A `200` at the top level for all valid, authenticated requests. `data` contains 
 
 Users have posts and collections associated with them that can be accessed across devices and browsers.
 
-Having an account isn't necessary to interact with Write.as, but provides useful functionality impossible or difficult to implement client-side. It does come with the trade-off of anonymity for pseudonymity.
-
-However, Write.as is also set up to work well pseudo- and anonymously at the same time. If your client performs actions on behalf of a user, simply send the `Authorization` header for user actions and leave it off for anonymous requests, saving any published posts' `token` like normal. Posts published anonymously can still be synced at any time, or never synced to ensure an account isn't associated with posts a user doesn't want to be associated with.
+WriteFreely is also set up to work well pseudo- and anonymously at the same time. If your client performs actions on behalf of a user, simply send the `Authorization` header for user actions and leave it off for anonymous requests, saving any published posts' `token` like normal. Posts published anonymously can still be synced at any time, or never synced to ensure an account isn't associated with posts a user doesn't want to be associated with.
 
 
 ## Authenticate a User
@@ -947,7 +889,7 @@ u, err := c.LogIn("matt", "12345")
 ```
 
 ```shell
-curl "https://write.as/api/auth/login" \
+curl "https://pencil.writefreely.dev/api/auth/login" \
   -H "Content-Type: application/json" \
   -X POST \
   -d '{"alias": "matt", "pass": "12345"}'
@@ -969,7 +911,7 @@ curl "https://write.as/api/auth/login" \
 }
 ```
 
-Authenticates a user with Write.as, creating an access token for future authenticated requests.
+Authenticates a user on a WriteFreely instance, creating an access token for future authenticated requests.
 
 Users can only authenticate with their primary account, i.e. the first collection/blog they created, which may or may not have multiple collections associated with it.
 
@@ -1016,21 +958,25 @@ err := c.LogOut()
 ```
 
 ```shell
-curl "https://write.as/api/auth/me" \
+curl "https://pencil.writefreely.dev/api/auth/me" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -X DELETE
 ```
 > A successful deletion returns a `204` with no content in the body.
 
-Un-authenticates a user with Write.as, permanently invalidating the access token used with the request.
+Un-authenticates a user with WriteFreely, permanently invalidating the access token used with the request.
 
 <aside class="warning">
-This is important for keeping accounts secure, so that users keep access to their account limited to as few devices as possible. <em>Always</em> consider building this functionality into your Write.as clients.
+This is important for keeping accounts secure, so that users keep access to their account limited to as few devices as possible. <em>Always</em> consider building this functionality into your WriteFreely clients.
 </aside>
 
 ### Definition
 
 `DELETE /api/auth/me`
+
+### Arguments
+
+None.
 
 ### Returns
 
@@ -1062,7 +1008,7 @@ Error Code | Meaning
 ```
 
 ```shell
-curl "https://write.as/api/me" \
+curl "https://pencil.writefreely.dev/api/me" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X GET
@@ -1116,7 +1062,7 @@ Error Code | Meaning
 ```
 
 ```shell
-curl "https://write.as/api/me/posts" \
+curl "https://pencil.writefreely.dev/api/me/posts" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X GET
@@ -1176,7 +1122,7 @@ None.
 
 ### Returns
 
-An array of the authenticated user's posts, including anonymous and collection posts.
+An array of the authenticated user's posts, including drafts and collection posts.
 
 ### Errors
 
@@ -1203,7 +1149,7 @@ colls, err := c.GetUserCollections()
 ```
 
 ```shell
-curl "https://write.as/api/me/collections" \
+curl "https://pencil.writefreely.dev/api/me/collections" \
   -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
   -H "Content-Type: application/json" \
   -X GET
@@ -1222,8 +1168,7 @@ curl "https://write.as/api/me/collections" \
       "style_sheet": "",
       "public": true,
       "views": 46,
-      "email": "matt-7e7euebput9t5jr3v4csgferutf@writeas.com",
-      "url": "https://write.as/matt/"
+      "url": "https://pencil.writefreely.dev//matt/"
     }
   ]
 }
@@ -1256,107 +1201,5 @@ Error Code | Meaning
 ---------- | -------
 401 | Access token is invalid or expired.
 
-
-## Retrieve User's Channels
-
-```go
-// Currently unsupported in the Go client.
-// Use curl command or contribute at:
-//   https://github.com/writeas/writeas-go
-```
-
-```shell
-curl "https://write.as/api/me/channels" \
-  -H "Authorization: Token 00000000-0000-0000-0000-000000000000" \
-  -H "Content-Type: application/json" \
-  -X GET
-```
-
-> Example Response
-
-```json
-{
-  "code": 200,
-  "data": [
-    {
-      "id":"twitter",
-      "name":"Twitter",
-      "username":"ilikebeans"
-    },
-    {
-      "id":"mastodon",
-      "url":"writing.exchange",
-      "name":"writing.exchange",
-      "username":"matt"
-    }
-  ]
-}
-```
-
-### Definition
-
-`GET /api/me/channels`
-
-### Arguments
-
-None.
-
-### Returns
-
-An array of the authenticated user's connected channels, or _integrations_.
-
-For channels that aren't a centralized service, like Mastodon, you'll also see a `url` property of the specific instance or host that the user has connected to.
-
-### Errors
-
-Errors are returned with a user-friendly error message.
-
-```json
-{
-  "code": 401,
-  "error_msg": "Invalid access token."
-}
-```
-
-Error Code | Meaning
----------- | -------
-401 | Access token is invalid or expired.
-
-
-# Integrations
-
-Write.as integrates with other services on the web to provide features like crossposting upon publishing a Write.as post.
-
-On the web, these are known as **channels**, and if you're logged in, they can be added [here](https://write.as/me/c/).
-
-## Crossposting
-
-> Example `crosspost` Parameter
-
-```json
-"crosspost": [
-  { "twitter": "writeas__" },
-  { "twitter": "ilikebeans" },
-  { "medium": "someone" },
-  { "tumblr": "example" }
-]
-```
-
-Crossposting is easy to do when publishing a new post. It requires authentication and at least one connected integration / channel on the web.
-
-<aside class="notice">
-Soon you'll be able to retrieve a user's connected accounts, so this may only be relevant to users posting from their own account for now.
-</aside>
-
-For the `crosspost` parameter on a new post, pass a JSON array of single-property objects. The object's sole property should be the ID of the integration you want to crosspost to (see below), and its value should be the user's connected username _on that service_.
-
-ID | Integration
---- | ----------
-twitter | Twitter
-tumblr | Tumblr
-medium | Medium
-
-
----
 
 Missing something? Questions? Find us on [Slack](http://slack.write.as), [IRC](irc://irc.freenode.net/writeas), or [other places](https://write.as/contact) and ask us.
